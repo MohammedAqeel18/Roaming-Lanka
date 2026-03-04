@@ -1,5 +1,34 @@
 import mongoose from "mongoose";
 
+
+const reviewSchema = mongoose.Schema({
+    
+        name:{
+            type:String,
+            required:true
+        },
+
+        rating:{
+            type:Number,
+            required:true
+        },
+
+        comment:{
+            type:String,
+            required:true
+        },
+        user: {
+            type:mongoose.Schema.ObjectId,
+            required:true,
+            ref:"User"
+        }
+    
+},
+{
+    timeStamps:true
+}
+)
+
 const districtSchema = mongoose.Schema({
     name:{
         type:String,
@@ -17,6 +46,18 @@ const districtSchema = mongoose.Schema({
     },
     image:{
         type:String
+    },
+
+    reviews:[reviewSchema],
+
+    rating:{
+        type:Number,
+        default:0
+    },
+
+    numReviews:{
+        type:Number,
+        default:0
     }
 
 },
@@ -24,6 +65,9 @@ const districtSchema = mongoose.Schema({
   timeStamps:true  
 }
 );
+
+
+
 
 const District = mongoose.model("District", districtSchema);
 export default District;
