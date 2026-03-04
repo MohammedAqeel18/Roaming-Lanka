@@ -42,3 +42,35 @@ export const createDistrict = async(req,res)=>{
 
     res.status(201).json(createdDistrict);
 }
+
+export const getDistrictById = async(req,res)=>{
+
+    const product = await District.findById(req.params.id)
+
+    if(product){
+        res.json(product)
+    }else{
+        res.status(404)
+    
+    throw new Error("District not found")
+    }
+}
+
+export const updateDistrict = async (req,res)=>{
+    const district = await District.findById(req.params.id)
+
+    if(district){
+        district.name = req.body.name || district.name;
+        district.province = req.body.province || district.province;
+        district.description = req.body.description || district.description;
+        district.image = req.body.image || district.image;
+
+        const updatedDistrict = await district.save()
+
+            res.json(updatedDistrict)
+        
+    }else{
+        res.status(404)
+        throw new Error("Product not found")
+    }
+}
