@@ -26,3 +26,19 @@ export const getDistrict = async (req,res)=>{
     })
 
 }
+
+
+export const createDistrict = async(req,res)=>{
+    const {name,province,description,image} = req.body;
+
+    const district = new District({
+        name,
+        province,
+        description,
+        image
+    })
+
+    const createdDistrict = await district.save()
+
+    res.status(201).json(createdDistrict);
+}
