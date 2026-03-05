@@ -25,7 +25,7 @@ const reviewSchema = mongoose.Schema({
     
 },
 {
-    timeStamps:true
+    timetamps:true
 }
 )
 
@@ -62,7 +62,7 @@ const districtSchema = mongoose.Schema({
 
 },
 {
-  timeStamps:true  
+  timestamps:true  
 }
 );
 
