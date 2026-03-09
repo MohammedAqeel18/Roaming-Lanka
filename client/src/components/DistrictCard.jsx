@@ -1,10 +1,13 @@
+import { Link } from "react-router-dom";
+
 function DistrictCard({district}){
     return(
+                <Link to={`/district/${district._id}`}> 
+
         <div className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-xl transition">
 
-         <img
+        <img
          src={district.image}
-       
          className="w-full h-48 object-cover"
          />   
 
@@ -23,6 +26,7 @@ function DistrictCard({district}){
          </div>
 
         </div>
+        </Link>
     )
 }
 

@@ -9,5 +9,8 @@ createRoot(document.getElementById('root')).render(
   <BrowserRouter>
   <Navbar/>
   <App/>
+  <footer>
+    <h1> All rights reserved RoamingLanka</h1>
+  </footer>
   </BrowserRouter>
 )
