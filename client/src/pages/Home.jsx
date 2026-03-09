@@ -1,5 +1,6 @@
 import { useEffect,useState } from "react";
 import { getDistricts } from "../services/api";
+import DistrictCard from "../components/DistrictCard";
 
 function Home(){
 
@@ -28,10 +29,7 @@ function Home(){
             <h1 className="text-blue-500"> Welcome to Sri Lanka</h1>
 
             {districts.map((district)=>(
-                <div key={district._id}>
-                   <h3>  {district.name}</h3>
-                   <p> {district.description} </p> 
-                </div>
+                <DistrictCard key={district._id} district={district}/>
         ))}
         </div>
     )
