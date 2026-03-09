@@ -1,16 +1,20 @@
 import { useEffect,useState } from "react";
-import API from "../services/api";
+import { getDistricts } from "../services/api";
 
 function Home(){
 
-    const [districts,setDistricts] = useState([])
+    const [districts,setDistricts]= useState([]);
+    const [page,setPage]= useState(1);
+    const[pages,setPages]= useState(1);
 
     useEffect(()=>{
-        const fetchDistricts = async()=>{
+        const fetchDistricts = async ()=>{
             try{
-                const {data} = await API.get("/districts")
+                const data = await getDistricts();
 
-                setDistricts(data.districts)
+                setDistricts(data.districts);
+               setPage(data.page);
+               setPages(data.pages);
             }catch(error){
                 console.error(error)
             }
@@ -18,21 +22,18 @@ function Home(){
 
         fetchDistricts();
     },[])
-    return (
+
+    return(
         <div>
-            <h2> Welcome to Roaming Lanka</h2>
-            <p> Discover the beauty of Sri Lanka</p>
+            <h1 className="text-blue-500"> Welcome to Sri Lanka</h1>
 
             {districts.map((district)=>(
                 <div key={district._id}>
-                 <h2>{district.name} </h2>
-                 <h3> {district.province}</h3>
-                 <h4> {district.description}</h4>   
-                 <h4> {district.rating}</h4>
+                   <h3>  {district.name}</h3>
+                   <p> {district.description} </p> 
                 </div>
-            ))}
+        ))}
         </div>
     )
 }
-
 export default Home;

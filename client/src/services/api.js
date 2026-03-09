@@ -5,4 +5,12 @@ const API = axios.create({
 
 });
 
+export const getDistricts = async (keyword = "" , pageNumber="")=>{
+    const {data} = await API.get(
+    `/districts?keyword=${keyword}&page=${pageNumber}`
+    )
+
+    return data;
+};
+
 export default API
