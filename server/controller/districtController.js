@@ -45,10 +45,10 @@ export const createDistrict = async(req,res)=>{
 
 export const getDistrictById = async(req,res)=>{
 
-    const product = await District.findById(req.params.id)
+    const district = await District.findById(req.params.id)
 
-    if(product){
-        res.json(product)
+    if(district){
+        res.json(district)
     }else{
         res.status(404)
     
@@ -71,7 +71,7 @@ export const updateDistrict = async (req,res)=>{
         
     }else{
         res.status(404)
-        throw new Error("Product not found")
+        throw new Error("District not found")
     }
 }
 
