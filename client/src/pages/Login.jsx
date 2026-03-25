@@ -10,7 +10,13 @@ function Login(){
 
         try{
 
-            const {data} = await API.get("userInfo", JSON.stringify(data));
+            const {data} = await API.post("/users/login", {
+            email,
+            password
+            
+            });
+
+            localStorage.setItem("userInfo", JSON.stringify(data))
 
             alert("Login Successful");
 
@@ -29,11 +35,12 @@ function Login(){
                  <label> Email</label>
 
                 <input
-                type="Email"
+                type="email"
                 className="border w-full p-2 rounded"
                 value={email}
                 placeholder="enter your email"
                 onChange={(e)=>setEmail(e.target.value)}
+                autoComplete="email"
                 />
             
                 <input
@@ -42,6 +49,7 @@ function Login(){
                 value={password}
                 onChange={(e)=>setPassword(e.target.value)}
                 className="border w-full p-2 rounded"
+                autoComplete="password"
                 />
                 <button type="submit" className="bg-blue-600 text-white w-full py-2 rounded"> Login</button>
                 </div>

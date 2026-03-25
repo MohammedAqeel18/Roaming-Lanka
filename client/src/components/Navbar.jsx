@@ -16,6 +16,8 @@ function Navbar(){
             Login
             </Link>
 
+            <Link to="/register" className="hover:text-gray-300 font-bold"> Signup</Link>
+
             </div>
         </nav>
     )
