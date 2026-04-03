@@ -1,7 +1,7 @@
 import { use, useEffect,useState } from "react";
 import { getDistricts } from "../services/api";
 import DistrictCard from "../components/DistrictCard";
-
+import Pagination from "../components/Pagination";
 function Home(){
 
     const [districts,setDistricts]= useState([]);
@@ -68,6 +68,12 @@ function Home(){
             {districts.map((district)=>(
                 <DistrictCard key={district._id} district={district}/>
         ))}
+
+        <Pagination
+        page={page}
+        pages={pages}
+        onPageChange={(p)=> loadDistricts(keyword,p)}
+        />
         </div>
     )
 }
