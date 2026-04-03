@@ -13,7 +13,6 @@ router.route("/:id")
 .put(protect,adminOnly,updateDistrict)
 .delete(protect,adminOnly,deleteDistrict)
 
-router.route("/:id/reviews")
-.post(protect, createDistrictReview)
+router.post("/:id/reviews", protect,createDistrictReview);
 
 export default router;
