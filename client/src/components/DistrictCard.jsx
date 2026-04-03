@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-
+import Rating from "./Rating";
 function DistrictCard({district}){
     return(
                 <Link to={`/district/${district._id}`}> 
@@ -22,7 +22,7 @@ function DistrictCard({district}){
 
         <p className="text-sm text-gray-500"> {district.description}</p>
          
-        <p className="mt-2 text-yellow-500 font-semibold"> {district.rating}</p> 
+       <Rating rating={district.rating} />
          </div>
 
         </div>
