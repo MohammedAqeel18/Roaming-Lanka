@@ -1,4 +1,4 @@
-import { use, useEffect,useState } from "react";
+import {  useEffect,useState } from "react";
 import { getDistricts } from "../services/api";
 import DistrictCard from "../components/DistrictCard";
 import Pagination from "../components/Pagination";
@@ -8,6 +8,8 @@ function Home(){
     const [page,setPage]= useState(1);
     const [keyword,setKeyword]= useState("");
     const [pages,setPages]= useState(1);
+    const [province, setProvince] = useState("");
+
     useEffect(()=>{
         const fetchDistricts = async ()=>{
             try{
@@ -25,8 +27,16 @@ function Home(){
     },[])
 
     const loadDistricts = async (searchKeyword = "", pageNumber="") =>{
+
+        searchKeyword = "",
+        pageNumber ="",
+        selectedProvince= ""
         try{
-            const data = await getDistricts(searchKeyword, pageNumber);
+            const data = await getDistricts(
+                searchKeyword,
+                pageNumber,
+                selectedProvince
+            );
 
             setDistricts(data.districts);
            setPage(data.page);
@@ -46,7 +56,7 @@ function Home(){
             <form
             onSubmit={(e)=>{
                 e.preventDefault();
-                loadDistricts(keyword,1);
+                loadDistricts(keyword,1,province);
                 
             }}
             className="flex justify-center mb-6"
@@ -63,6 +73,28 @@ function Home(){
                 Search
             </button>
             </form>
+
+            <div className="flex justify-center mt-4">
+                <select value={province}
+                onChange={(e)=>{setProvince(e.target.value);
+                loadDistricts(keyword,1,e.target.value);
+    
+                }}
+                className="border p2 rounded"
+                >
+                    <option value=""> All Provinces</option>
+                    <option value="Western"> Western Province</option>
+                    <option value="NorthCentral"> North Central Province</option>
+                     <option value="South"> South Province</option>
+                    <option value="Central"> Central Province</option>
+                    <option value="Eastern"> Eastern Province</option>
+                    <option value="NorthWestern"> NorthWestern Province</option>
+                    <option value="North"> North Province</option>
+                    <option value="Uva"> Uva Province</option>
+                    <option value="Sabaragamuva"> Sabaragamuva Province</option>
+
+                </select>
+            </div>
             <h1 className="text-blue-500"> Welcome to Sri Lanka</h1>
 
             {districts.map((district)=>(
@@ -72,7 +104,7 @@ function Home(){
         <Pagination
         page={page}
         pages={pages}
-        onPageChange={(p)=> loadDistricts(keyword,p)}
+        onPageChange={(p)=> loadDistricts(keyword,p,province)}
         />
         </div>
     )
