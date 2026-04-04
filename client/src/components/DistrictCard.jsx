@@ -7,7 +7,8 @@ function DistrictCard({district}){
         <div className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-xl transition">
 
         <img
-         src={district.image}
+         src={`/images/${district.image}`}
+         
          className="w-full h-48 object-cover"
          />   
 

@@ -16,17 +16,13 @@ API.interceptors.request.use((req)=>{
     return req;
 
 });
-    export const getDistricts = async (
-        keyword = "",
-        pageNumber = "",
-        province ="",
-    ) => {
-       
-        const { data } = await API.get(
-            `/districts?keyword=${keyword}&page=${pageNumber}&province=${province}`
-        );
-        return data;
-    };
+   export const getDistricts = async (keyword = "", pageNumber = "", province = "") => {
+  const { data } = await API.get(
+    `/districts?keyword=${keyword}&page=${pageNumber}&province=${province}`
+  );
+
+  return data;
+};
 
 
 export default API;

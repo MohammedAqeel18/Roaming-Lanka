@@ -1,112 +1,96 @@
-import {  useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import { getDistricts } from "../services/api";
 import DistrictCard from "../components/DistrictCard";
 import Pagination from "../components/Pagination";
-function Home(){
 
-    const [districts,setDistricts]= useState([]);
-    const [page,setPage]= useState(1);
-    const [keyword,setKeyword]= useState("");
-    const [pages,setPages]= useState(1);
-    const [province, setProvince] = useState("");
+function Home() {
+  const [districts, setDistricts] = useState([]);
+  const [page, setPage] = useState(1);
+  const [keyword, setKeyword] = useState("");
+  const [pages, setPages] = useState(1);
+  const [province, setProvince] = useState("");
 
-    useEffect(()=>{
-        const fetchDistricts = async ()=>{
-            try{
-                const data = await getDistricts(keyword, page);
+  const loadDistricts = async (searchKeyword = "", pageNumber = 1, selectedProvince = "") => {
+    try {
+      const data = await getDistricts(searchKeyword, pageNumber, selectedProvince);
 
-                setDistricts(data.districts);
-               setPage(data.page);
-               setPages(data.pages);
-            }catch(error){
-                console.error(error)
-            }
-        };
+      setDistricts(data.districts);
+      setPage(data.page);
+      setPages(data.pages);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-        fetchDistricts();
-    },[])
+  useEffect(() => {
+    loadDistricts(keyword, page, province);
+  }, [keyword, page, province]);
 
-    const loadDistricts = async (searchKeyword = "", pageNumber="") =>{
+  return (
+    <div>
 
-        searchKeyword = "",
-        pageNumber ="",
-        selectedProvince= ""
-        try{
-            const data = await getDistricts(
-                searchKeyword,
-                pageNumber,
-                selectedProvince
-            );
 
-            setDistricts(data.districts);
-           setPage(data.page);
-           setPages(data.pages);
-        }catch(error){
-            console.error(error);
-        }
-    };
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          setPage(1); // reset page
+          loadDistricts(keyword, 1, province);
+        }}
+        className="flex justify-center mb-6"
+      >
+        <input
+          type="text"
+          placeholder="Search districts..."
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+          className="border p-2 w-1/2 rounded-l"
+        />
 
-    useEffect(()=>{
-    loadDistricts();
-    },[]);
+        <button type="submit" className="bg-blue-600 text-white px-4 rounded-r">
+          Search
+        </button>
+      </form>
 
-    return(
-        <div>
+     
+      <div className="flex justify-center mt-4">
+        <select
+          value={province}
+          onChange={(e) => {
+            setProvince(e.target.value);
+            setPage(1);
+          }}
+          className="border p-2 rounded"
+        >
+          <option value="">Filter by Province</option>
 
-            <form
-            onSubmit={(e)=>{
-                e.preventDefault();
-                loadDistricts(keyword,1,province);
-                
-            }}
-            className="flex justify-center mb-6"
-            >
+          
+          <option value="Western Province">Western Province</option>
+          <option value="North Central Province">North Central Province</option>
+          <option value="South Province">South Province</option>
+          <option value="Central Province">Central Province</option>
+          <option value="Eastern Province">Eastern Province</option>
+          <option value="North Western Province">North Western Province</option>
+          <option value="North Province">North Province</option>
+          <option value="Uva Province">Uva Province</option>
+          <option value="Sabaragamuva Province">Sabaragamuva Province</option>
+        </select>
+      </div>
 
-                <input
-                type="text"
-                placeholder="Search districts..."
-                value={keyword}
-                onChange={(e)=>setKeyword(e.target.value)}
-                className="border p-2 w-1/2 rounded-1"
-                />
-            <button type="submit" className="bg-blue-600 text-white px-4 rounded-r"> 
-                Search
-            </button>
-            </form>
+      <h1 className="text-blue-500">Welcome to Sri Lanka</h1>
 
-            <div className="flex justify-center mt-4">
-                <select value={province}
-                onChange={(e)=>{setProvince(e.target.value);
-                loadDistricts(keyword,1,e.target.value);
-    
-                }}
-                className="border p2 rounded"
-                >
-                    <option value=""> All Provinces</option>
-                    <option value="Western"> Western Province</option>
-                    <option value="NorthCentral"> North Central Province</option>
-                     <option value="South"> South Province</option>
-                    <option value="Central"> Central Province</option>
-                    <option value="Eastern"> Eastern Province</option>
-                    <option value="NorthWestern"> NorthWestern Province</option>
-                    <option value="North"> North Province</option>
-                    <option value="Uva"> Uva Province</option>
-                    <option value="Sabaragamuva"> Sabaragamuva Province</option>
+      {/* DISTRICTS */}
+      {districts.map((district) => (
+        <DistrictCard key={district._id} district={district} />
+      ))}
 
-                </select>
-            </div>
-            <h1 className="text-blue-500"> Welcome to Sri Lanka</h1>
-
-            {districts.map((district)=>(
-                <DistrictCard key={district._id} district={district}/>
-        ))}
-
-        <Pagination
+      {/* PAGINATION */}
+      <Pagination
         page={page}
         pages={pages}
-        onPageChange={(p)=> loadDistricts(keyword,p,province)}
-        />
-        </div>
-    )
+        onPageChange={(p) => setPage(p)}
+      />
+    </div>
+  );
 }
+
 export default Home;
