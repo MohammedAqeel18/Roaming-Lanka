@@ -13,9 +13,13 @@ export const getDistrict = async (req,res)=>{
     }
     :{}
 
-    const count = await District.countDocuments({...keyword})
+    const provinceFilter =  req.query.province
+    ?{province:req.query.province}
+    :{};
 
-    const districts = await District.find({...keyword})
+    const count = await District.countDocuments({...keyword,...provinceFilter})
+
+    const districts = await District.find({...keyword,...provinceFilter})
     .limit(pageSize)
     .skip(pageSize * (page -1 ))
 
