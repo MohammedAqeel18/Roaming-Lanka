@@ -59,7 +59,7 @@ function DistrictPage() {
   return (
     <div className="max-w-4xl mx-auto p-6">
       <img
-        src={`/images/${district.image}`}
+        src={district.image}
         alt={district.name}
         className="w-full h-96 object-cover rounded-lg"
       />
