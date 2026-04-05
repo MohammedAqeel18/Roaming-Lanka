@@ -3,6 +3,8 @@ import Home from "./pages/Home";
 import DistrictPage from "./pages/DistrictPage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Admin from "./pages/Admin";
+
 function App(){
   return (
     <Routes>
@@ -11,6 +13,7 @@ function App(){
       <Route path="/district/:id" element={<DistrictPage/>}/>
       <Route path="login" element={<Login/>}/>
        <Route path="register" element={<Register/>}/>
+       <Route path="admin" element={<Admin/>}/>
     </Routes>
 
     

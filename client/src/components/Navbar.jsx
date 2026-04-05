@@ -18,6 +18,7 @@ function Navbar(){
 
             <Link to="/register" className="hover:text-gray-300 font-bold"> Signup</Link>
 
+            <Link to="/admin" className="hover:text-gray-300 font-bold"> Admin</Link>
             </div>
         </nav>
     )
