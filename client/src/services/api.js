@@ -24,9 +24,13 @@ API.interceptors.request.use((req)=>{
   return data;
 };
 
-export const createDisrict = async (districtData) => {
-    const {data} = await API.post("/districts", districtData);
+export const createDistrict = async (district) => {
+    const {data} = await API.post("/districts", district);
     return data;
+};
+
+export const updateDistrict = async (id,districtData)=>{
+    const {data} = await API.put(`/districts/${id}`, districtData);
 };
 
 export const deleteDistrict = async(id) => {
