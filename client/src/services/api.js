@@ -29,12 +29,8 @@ export const createDisrict = async (districtData) => {
     return data;
 };
 
-export const deleteDistrict = async(id, token) => {
-    const {data}= await API.delete(`/districts/${id}`, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    });
+export const deleteDistrict = async(id) => {
+    const {data}= await API.delete(`/districts/${id}`);
     return data;
 }
 
