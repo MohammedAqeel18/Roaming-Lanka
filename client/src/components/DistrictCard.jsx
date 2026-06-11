@@ -6,12 +6,13 @@ function DistrictCard({district}){
 
         <div className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-xl transition">
 
+      { district.image && (
         <img
-         src={district.image}
-         alt={district.name}
-        
-         className="w-full h-48 object-cover"
-         />   
+        src={`http://localhost:5000${district.image}`}
+        alt="preview"
+        className="w-full h-48 object-cover "
+        />
+      )  } 
 
          <div className="p-4">
         <h3 className="text-lg font-semibold">

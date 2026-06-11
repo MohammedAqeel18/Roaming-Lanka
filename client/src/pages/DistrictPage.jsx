@@ -13,7 +13,6 @@ function DistrictPage() {
     ? JSON.parse(localStorage.getItem("userInfo"))
     : null;
 
-  // ✅ Fetch District
   const fetchDistrict = async () => {
     try {
       const { data } = await API.get(`/districts/${id}`);
@@ -27,7 +26,7 @@ function DistrictPage() {
     fetchDistrict();
   }, [id]);
 
-  // ✅ Submit Review
+
   const submitReviewHandler = async (e) => {
     e.preventDefault();
 
@@ -47,7 +46,7 @@ function DistrictPage() {
       setRating("");
       setComment("");
 
-      await fetchDistrict(); // 🔥 refresh UI
+      await fetchDistrict(); 
     } catch (error) {
       console.error(error);
       alert(error.response?.data?.message || "Error");
@@ -58,22 +57,24 @@ function DistrictPage() {
 
   return (
     <div className="max-w-4xl mx-auto p-6">
-      <img
-        src={district.image}
-        alt={district.name}
-        className="w-full h-96 object-cover rounded-lg"
-      />
+      {district.image && (
+        <img
+          src={`http://localhost:5000${district.image}`}
+          alt={district.name}
+          className="w-full h-96 object-cover rounded-lg"
+        />
+      )}
 
       <h1 className="text-3xl font-bold mt-4">{district.name}</h1>
       <p className="text-gray-500">{district.province}</p>
       <p className="mt-4">{district.description}</p>
 
-      {/* ⭐ Rating */}
+  
       <p className="mt-4 text-yellow-500 font-bold">
         ⭐ {district.rating}
       </p>
 
-      {/* 📝 Reviews */}
+   
       <div className="mt-10">
         <h2 className="text-2xl font-bold mb-4">Reviews</h2>
 
@@ -88,7 +89,7 @@ function DistrictPage() {
         ))}
       </div>
 
-      {/* ✍️ Write Review */}
+    
       <div className="mt-10">
         <h2 className="text-2xl font-bold mb-4">Write a review</h2>
 

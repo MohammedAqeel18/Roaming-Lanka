@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
+
 import {
   getDistricts,
   deleteDistrict,
@@ -13,7 +15,7 @@ function Admin() {
   const [province, setProvince] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
-
+  const [uploading, setUploading] = useState(false);
   const [editingId, setEditingId] = useState(null);
 
   useEffect(() => {
@@ -25,7 +27,7 @@ function Admin() {
     setDistricts(data.districts);
   };
 
-  // DELETE
+
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure?")) {
       await deleteDistrict(id);
@@ -33,7 +35,7 @@ function Admin() {
     }
   };
 
-  // CREATE
+
   const handleCreate = async () => {
     try {
       await createDistrict({
@@ -51,7 +53,6 @@ function Admin() {
     }
   };
 
-  // EDIT (FILL FORM)
   const handleEdit = (district) => {
     setEditingId(district._id);
 
@@ -61,7 +62,7 @@ function Admin() {
     setImage(district.image);
   };
 
-  // UPDATE
+
   const handleUpdate = async () => {
     try {
       await updateDistrict(editingId, {
@@ -79,7 +80,7 @@ function Admin() {
     }
   };
 
-  // RESET FORM
+
   const resetForm = () => {
     setEditingId(null);
     setName("");
@@ -88,11 +89,42 @@ function Admin() {
     setImage("");
   };
 
+
+  const uploadFileHandler = async(e)=>{
+    const file = e.target.files[0];
+
+    const formData = new FormData();
+
+    formData.append("image", file);
+
+    try{
+      setUploading(true);
+
+      const {data} = await axios.post
+      ("http://localhost:5000/api/upload",
+         formData, 
+        {
+          headers:{
+            "Content-Type":"multipart/form-data",
+          },
+        }
+        );
+        setImage(data.image);
+
+        setUploading(false);
+    }catch(error){
+      console.error(error);
+
+      setUploading(false);
+    }
+  };
+
+
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold">Admin Panel</h1>
 
-      {/* FORM */}
+
       <div className="border p-4 mt-4">
         <h2 className="text-xl font-bold mb-2">
           {editingId ? "Edit District" : "Add New District"}
@@ -122,12 +154,18 @@ function Admin() {
         />
 
         <input
-          placeholder="Image URL"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
+          type="file"
+          onChange={uploadFileHandler}
           className="border p-2 w-full mb-2"
         />
-
+      {image && ( 
+        <img
+        
+        src = {`http://localhost:5000${image}`}
+        alt="preview"
+        className="w-48 rounded ,t-4"
+        />
+      )}
         <button
           onClick={editingId ? handleUpdate : handleCreate}
           className="bg-blue-500 text-white px-4 py-2 rounded"
@@ -145,7 +183,7 @@ function Admin() {
         )}
       </div>
 
-      {/* LIST */}
+   
       {districts.map((district) => (
         <div key={district._id} className="border p-4 my-4 rounded">
           <h2 className="text-xl font-bold">{district.name}</h2>
