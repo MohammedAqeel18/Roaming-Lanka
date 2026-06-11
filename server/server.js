@@ -2,8 +2,9 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
-import userRoutes from "./routes/userRoutes.js"
-import districtRoutes from "./routes/districtRoutes.js"
+import userRoutes from "./routes/userRoutes.js";
+import districtRoutes from "./routes/districtRoutes.js";
+import uploadRoutes from "./routes/uploadRoutes.js";
 
 dotenv.config();
 
@@ -17,9 +18,13 @@ app.use("/api/users", userRoutes);
 
 app.use("/api/districts", districtRoutes);
 
+app.use("/api/upload", uploadRoutes);
+app.use("/uploads", express.static("uploads"));
+
 app.get("/",(req,res)=>{
     res.send("server is running")
 });
+
 
 const PORT = process.env.PORT || 5000
 
