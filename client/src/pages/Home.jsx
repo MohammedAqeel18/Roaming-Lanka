@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getDistricts } from "../services/api";
 import DistrictCard from "../components/DistrictCard";
 import Pagination from "../components/Pagination";
+import HeroSection from "../components/HeroSection";
 
 function Home() {
   const [districts, setDistricts] = useState([]);
@@ -10,9 +11,17 @@ function Home() {
   const [pages, setPages] = useState(1);
   const [province, setProvince] = useState("");
 
-  const loadDistricts = async (searchKeyword = "", pageNumber = 1, selectedProvince = "") => {
+  const loadDistricts = async (
+    searchKeyword = "",
+    pageNumber = 1,
+    selectedProvince = ""
+  ) => {
     try {
-      const data = await getDistricts(searchKeyword, pageNumber, selectedProvince);
+      const data = await getDistricts(
+        searchKeyword,
+        pageNumber,
+        selectedProvince
+      );
 
       setDistricts(data.districts);
       setPage(data.page);
@@ -24,71 +33,112 @@ function Home() {
 
   useEffect(() => {
     loadDistricts(keyword, page, province);
-  }, [keyword, page, province]);
+  }, [page, province]);
 
   return (
-    <div>
+    <div className="bg-gray-50 min-h-screen">
 
+      {/* HERO */}
+      <HeroSection />
 
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          setPage(1); // reset page
-          loadDistricts(keyword, 1, province);
-        }}
-        className="flex justify-center mb-6"
-      >
-        <input
-          type="text"
-          placeholder="Search districts..."
-          value={keyword}
-          onChange={(e) => setKeyword(e.target.value)}
-          className="border p-2 w-1/2 rounded-l"
-        />
+      {/* SEARCH SECTION */}
+      <div className="max-w-6xl mx-auto px-4 -mt-14 relative z-20">
+        <div className="bg-white rounded-2xl shadow-xl p-6">
 
-        <button type="submit" className="bg-blue-600 text-white px-4 rounded-r">
-          Search
-        </button>
-      </form>
+          <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
+            Explore Sri Lanka
+          </h2>
 
-     
-      <div className="flex justify-center mt-4">
-        <select
-          value={province}
-          onChange={(e) => {
-            setProvince(e.target.value);
-            setPage(1);
-          }}
-          className="border p-2 rounded"
-        >
-          <option value="">Filter by Province</option>
+          <div className="flex flex-col md:flex-row gap-4">
 
-          
-          <option value="Western Province">Western Province</option>
-          <option value="North Central Province">North Central Province</option>
-          <option value="South Province">South Province</option>
-          <option value="Central Province">Central Province</option>
-          <option value="Eastern Province">Eastern Province</option>
-          <option value="North Western Province">North Western Province</option>
-          <option value="North Province">North Province</option>
-          <option value="Uva Province">Uva Province</option>
-          <option value="Sabaragamuva Province">Sabaragamuva Province</option>
-        </select>
+            {/* Search Form */}
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                setPage(1);
+                loadDistricts(keyword, 1, province);
+              }}
+              className="flex flex-1"
+            >
+              <input
+                type="text"
+                placeholder="Search districts..."
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
+                className="flex-1 border border-gray-300 p-3 rounded-l-lg outline-none focus:ring-2 focus:ring-blue-500"
+              />
+
+              <button
+                type="submit"
+                className="bg-blue-600 px-6 text-white rounded-r-lg hover:bg-blue-700 transition"
+              >
+                Search
+              </button>
+            </form>
+
+            {/* Province Filter */}
+            <select
+              value={province}
+              onChange={(e) => {
+                setProvince(e.target.value);
+                setPage(1);
+              }}
+              className="border border-gray-300 p-3 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">All Provinces</option>
+              <option value="Western Province">Western Province</option>
+              <option value="Central Province">Central Province</option>
+              <option value="Southern Province">Southern Province</option>
+              <option value="Eastern Province">Eastern Province</option>
+              <option value="North Central Province">North Central Province</option>
+              <option value="North Western Province">North Western Province</option>
+              <option value="Northern Province">Northern Province</option>
+              <option value="Uva Province">Uva Province</option>
+              <option value="Sabaragamuva Province">Sabaragamuva Province</option>
+            </select>
+
+          </div>
+        </div>
       </div>
 
-      <h1 className="text-blue-500">Welcome to Sri Lanka</h1>
+      {/* FEATURED DESTINATIONS */}
+      <div className="max-w-6xl mx-auto px-4 mt-20">
 
-      {/* DISTRICTS */}
-      {districts.map((district) => (
-        <DistrictCard key={district._id} district={district} />
-      ))}
+        <div className="text-center mb-12">
 
-      {/* PAGINATION */}
-      <Pagination
-        page={page}
-        pages={pages}
-        onPageChange={(p) => setPage(p)}
-      />
+          <h2 className="text-4xl font-bold text-gray-800 mb-3">
+            Featured Destinations
+          </h2>
+
+          <p className="text-gray-500 text-lg">
+            Discover hidden gems and unforgettable experiences across Sri Lanka
+          </p>
+
+        </div>
+
+        {/* DISTRICT GRID */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+          {districts.map((district) => (
+            <DistrictCard
+              key={district._id}
+              district={district}
+            />
+          ))}
+
+        </div>
+
+        {/* PAGINATION */}
+        <div className="flex justify-center mt-14 mb-20">
+          <Pagination
+            page={page}
+            pages={pages}
+            onPageChange={(p) => setPage(p)}
+          />
+        </div>
+
+      </div>
+
     </div>
   );
 }
