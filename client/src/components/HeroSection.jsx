@@ -4,7 +4,7 @@ function HeroSection(){
         <section className="relative h-[600px] flex items-center justify-center">
             <div className="absolute inset-0 bg-black/40 z-40">
 
-            <img src="/images/polonnaruwa.jpg"
+            <img src="/images/col.jpg"
             className="absolute inset-0 w-full h-full object-cover"
            / >
 
